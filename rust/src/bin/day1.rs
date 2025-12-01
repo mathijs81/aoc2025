@@ -1,15 +1,15 @@
 use std::fs;
 
 fn solve(input: &str) -> i32 {
-    let lines: Vec<i32> = input.split("\n").
-        map(|l| l[1..l.len()].parse::<i32>().unwrap() * 
-            if l.chars().nth(0).unwrap() == 'L' { -1 } else { 1 }
-        ).collect();
+    let lines: Vec<i32> = input
+        .lines()
+        .map(|l| l[1..].parse::<i32>().unwrap() * if l.starts_with('L') { -1 } else { 1 })
+        .collect();
 
     let mut position = 50;
     let mut count = 0;
     for x in lines {
-        position = (position + (x % 100) + 100) % 100;
+        position = (position + x).rem_euclid(100);
         if position == 0 {
             count += 1;
         }
@@ -17,12 +17,11 @@ fn solve(input: &str) -> i32 {
     count
 }
 
-
 fn solve2(input: &str) -> i32 {
-    let lines: Vec<i32> = input.split("\n").
-        map(|l| l[1..l.len()].parse::<i32>().unwrap() * 
-            if l.chars().nth(0).unwrap() == 'L' { -1 } else { 1 }
-        ).collect();
+    let lines: Vec<i32> = input
+        .lines()
+        .map(|l| l[1..].parse::<i32>().unwrap() * if l.starts_with('L') { -1 } else { 1 })
+        .collect();
 
     let mut position = 50;
     let mut count = 0;
@@ -30,10 +29,10 @@ fn solve2(input: &str) -> i32 {
         count += x.abs() / 100;
         let adjust = x % 100;
         let old_position = position;
-        position = (position + adjust + 100) % 100;
-        if position == 0 {
-            count += 1;
-        } else if old_position != 0 && (old_position + adjust < 0 || old_position + adjust > 100) {
+        position = (position + x).rem_euclid(100);
+        if position == 0
+            || (old_position != 0 && (old_position + adjust < 0 || old_position + adjust > 100))
+        {
             count += 1;
         }
     }
@@ -41,8 +40,8 @@ fn solve2(input: &str) -> i32 {
 }
 
 fn main() {
-    let example_output = vec![ 3, 6 ];
-    
+    let example_output = [3, 6];
+
     for challenge in [1, 2] {
         let solver = match challenge {
             1 => solve,
@@ -62,7 +61,12 @@ fn main() {
             let result = solver(&contents);
             if is_example {
                 if result != example_output[challenge - 1] {
-                    println!("Example failed for challenge {}: got {}, expected {}", challenge, result, example_output[challenge - 1]);
+                    println!(
+                        "Example failed for challenge {}: got {}, expected {}",
+                        challenge,
+                        result,
+                        example_output[challenge - 1]
+                    );
                     break;
                 }
             } else {
