@@ -1,31 +1,31 @@
-import kotlin.math.absoluteValue
-
-private const val EXPECTED_1 = 11L
-private const val EXPECTED_2 = 31L
+private const val EXPECTED_1 = 3
+private const val EXPECTED_2 = 6
 
 private class Day01(isTest: Boolean) : Solver(isTest) {
-    fun part1(): Long {
-        val list = readAsLines().map { it.splitInts() }
-        val firstCol = list.map { it[0] }.sorted()
-        val secondCol = list.map { it[1] }.sorted()
-
-        val diff = firstCol.zip(secondCol).sumInt { (it.first - it.second).absoluteValue }
-        return diff.toLong()
+    fun part1(): Any {
+        var pos = 50
+        var count = 0
+        for (line in readAsLines()) {
+            var amount = line.substring(1).toInt() % 100
+            if (line[0] == 'L') amount = -amount
+            pos = (pos + amount + 100) % 100
+            if (pos == 0) count ++
+        }
+        return count
     }
 
     fun part2(): Any {
-        val list = readAsLines().map { it.splitInts() }
-        val firstCol = list.map { it[0] }.sorted()
-        val secondCol = list.map { it[1] }.sorted()
-        val secondFrequency = secondCol.groupBy { it }.mapValues { it.value.size }
-
-        var sum = 0L
-
-        for (num in firstCol) {
-            sum += num * (secondFrequency[num] ?: 0)
+        var pos = 50
+        var count = 0
+        for (line in readAsLines()) {
+            var amount = line.substring(1).toInt().also { count += it / 100 } % 100
+            if (line[0] == 'L') amount = -amount
+            val oldpos = pos
+            pos = (pos + amount + 100) % 100
+            if (pos == 0) count ++
+            else if (oldpos != 0 && (oldpos + amount < 0 || oldpos + amount >= 100)) count ++
         }
-
-        return sum
+        return count
     }
 }
 
