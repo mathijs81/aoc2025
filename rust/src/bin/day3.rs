@@ -1,5 +1,3 @@
-use std::fs;
-
 fn solve(input: &str) -> u64 {
     input
         .lines()
@@ -41,36 +39,5 @@ fn solve2(input: &str) -> u64 {
 
 fn main() {
     let example_output = [357u64, 3121910778619u64];
-
-    for challenge in [1, 2] {
-        let solver = match challenge {
-            1 => solve,
-            2 => solve2,
-            _ => panic!("Unknown challenge"),
-        };
-        println!("Challenge {}", challenge);
-        for is_example in [true, false] {
-            let file_path = if is_example {
-                "../src/Day03_test.txt"
-            } else {
-                "../src/Day03.txt"
-            };
-
-            let contents = fs::read_to_string(file_path).unwrap();
-            let result = solver(&contents);
-            if is_example {
-                if result != example_output[challenge - 1] {
-                    println!(
-                        "Example failed for challenge {}: got {}, expected {}",
-                        challenge,
-                        result,
-                        example_output[challenge - 1]
-                    );
-                    break;
-                }
-            } else {
-                println!("Result: {}", result);
-            }
-        }
-    }
+    aoc::run(3, &example_output, &[solve, solve2]);
 }

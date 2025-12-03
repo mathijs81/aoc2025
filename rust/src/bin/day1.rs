@@ -1,5 +1,3 @@
-use std::fs;
-
 fn solve(input: &str) -> i32 {
     let lines: Vec<i32> = input
         .lines()
@@ -42,36 +40,5 @@ fn solve2(input: &str) -> i32 {
 fn main() {
     let example_output = [3, 6];
 
-    for challenge in [1, 2] {
-        let solver = match challenge {
-            1 => solve,
-            2 => solve2,
-            _ => panic!("Unknown challenge"),
-        };
-        println!("Challenge {}", challenge);
-        for is_example in [true, false] {
-            // Filename is ../src/Day01.txt or ../src/Day01_test.txt
-            let file_path = if is_example {
-                "../src/Day01_test.txt"
-            } else {
-                "../src/Day01.txt"
-            };
-
-            let contents = fs::read_to_string(file_path).unwrap();
-            let result = solver(&contents);
-            if is_example {
-                if result != example_output[challenge - 1] {
-                    println!(
-                        "Example failed for challenge {}: got {}, expected {}",
-                        challenge,
-                        result,
-                        example_output[challenge - 1]
-                    );
-                    break;
-                }
-            } else {
-                println!("Result: {}", result);
-            }
-        }
-    }
+    aoc::run(1, &example_output, &[solve, solve2]);
 }

@@ -3,5 +3,9 @@ name = "aoc"
 version = "0.1.0"
 edition = "2024"
 
+[lib]
+name = "aoc"
+path = "src/lib.rs"
+
 [dependencies]
 fancy-regex = "0.16.2"
