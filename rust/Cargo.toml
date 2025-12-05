@@ -9,3 +9,4 @@ path = "src/lib.rs"
 
 [dependencies]
 fancy-regex = "0.16.2"
+itertools = "0.14.0"
