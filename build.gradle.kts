@@ -18,3 +18,7 @@ tasks {
         }
     }
 }
+
+dependencies {
+    implementation("com.google.ortools:ortools-java:9.14.6206")
+}
